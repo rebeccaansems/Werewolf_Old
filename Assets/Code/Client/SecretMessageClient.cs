@@ -18,7 +18,7 @@ namespace EasyWiFi.ClientBackchannels
         //runtime variables
         StringBackchannelType stringBackchannel = new StringBackchannelType();
         string backchannelKey;
-        string lastValue = "";
+        string lastValue = "yo";
 
         void Awake()
         {
@@ -26,9 +26,9 @@ namespace EasyWiFi.ClientBackchannels
             stringBackchannel = (StringBackchannelType)EasyWiFiController.controllerDataDictionary[backchannelKey];
         }
 
-        public void UpdateText(object[] para)   
+        public void UpdateText(string text)
         {
-            message.text = para[0].ToString();
+            message.text = text;
         }
 
         void Update()
@@ -47,11 +47,14 @@ namespace EasyWiFi.ClientBackchannels
             }
             else
             {
-                if (stringBackchannel.STRING_VALUE != null && !lastValue.Equals(stringBackchannel.STRING_VALUE))
+                if (stringBackchannel.STRING_VALUE != null)
                 {
-                    SendMessage(notifyMethod, new object[] { stringBackchannel.STRING_VALUE }, SendMessageOptions.DontRequireReceiver);
+                    if (!lastValue.Equals(stringBackchannel.STRING_VALUE))
+                    {
+                        SendMessage(notifyMethod, stringBackchannel.STRING_VALUE);
+                    }
+                    lastValue = stringBackchannel.STRING_VALUE;
                 }
-                lastValue = stringBackchannel.STRING_VALUE;
             }
         }
     }
