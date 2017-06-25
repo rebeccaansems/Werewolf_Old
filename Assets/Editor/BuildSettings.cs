@@ -43,7 +43,7 @@ public class BuildSettings : EditorWindow
 
     public static void BuildController()
     {
-        string[] levels = new string[] { "Assets/Scenes/Controller.unity" };
+        string[] levels = new string[] { "Assets/Code/Client/Controller.unity" };
 
         // Build player.
         BuildPipeline.BuildPlayer(levels, path + "/Controller.exe", BuildTarget.StandaloneWindows, BuildOptions.None);
@@ -52,7 +52,7 @@ public class BuildSettings : EditorWindow
 
     public static void BuildServer()
     {
-        string[] levels = new string[] { "Assets/Scenes/Server.unity" };
+        string[] levels = new string[] { "Assets/Code/Server/Server.unity" };
 
         // Build player.
         BuildPipeline.BuildPlayer(levels, path + "/Server.exe", BuildTarget.StandaloneWindows, BuildOptions.None);
