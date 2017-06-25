@@ -28,6 +28,7 @@ namespace EasyWiFi.ServerControls
 
         void UpdateImage(object[] obj)
         {
+            image[(int)player].sprite = sprites[((IntBackchannelType)obj[0]).INT_VALUE];
         }
 
         void OnEnable()
