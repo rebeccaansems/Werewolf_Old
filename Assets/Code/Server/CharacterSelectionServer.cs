@@ -12,7 +12,7 @@ namespace EasyWiFi.ServerControls
     public class CharacterSelectionServer : MonoBehaviour, IServerController
     {
 
-        public string control = "IntData1";
+        public string control = "CharacterCreateController";
         public EasyWiFiConstants.PLAYER_NUMBER player = EasyWiFiConstants.PLAYER_NUMBER.Player1;
         public string notifyMethod = "UpdateImage";
         [Tooltip("Determines when your Notify Method gets called")]

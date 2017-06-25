@@ -11,7 +11,7 @@ public class BuildSettings : EditorWindow
 
     private static string path = "C:/Users/User/Desktop/Werewolf Builds";
 
-    [MenuItem("Build/Windows Build")]
+    [MenuItem("Custom/Windows Build")]
     static void Init()
     {
         EditorWindow window = GetWindow(typeof(BuildSettings));
@@ -58,4 +58,7 @@ public class BuildSettings : EditorWindow
         BuildPipeline.BuildPlayer(levels, path + "/Server.exe", BuildTarget.StandaloneWindows, BuildOptions.None);
 
     }
+
+    [MenuItem("Custom/Reset Playerprefs")]
+    public static void DeletePlayerPrefs() { PlayerPrefs.DeleteAll(); }
 }
