@@ -6,12 +6,12 @@ using System.Collections;
 public class BuildSettings : EditorWindow
 {
 
-    public string[] options = new string[] { "Server", "Controller" };
+    public string[] options = new string[] { "Controller", "Server" };
     public int index = 0;
 
     private static string path = "C:/Users/User/Desktop/Werewolf Builds";
 
-    [MenuItem("Examples/Windows Build")]
+    [MenuItem("Build/Windows Build")]
     static void Init()
     {
         EditorWindow window = GetWindow(typeof(BuildSettings));
