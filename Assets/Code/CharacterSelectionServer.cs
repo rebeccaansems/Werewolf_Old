@@ -23,12 +23,11 @@ namespace EasyWiFi.ServerControls
         int lastValue = 0;
         
         public Sprite[] sprites;
-        public Image image;
+        public Image[] image;
 
 
-        void UpdateImage(IntBackchannelType ibt)
+        void UpdateImage(object[] obj)
         {
-            image.sprite = sprites[ibt.INT_VALUE];
         }
 
         void OnEnable()
@@ -68,7 +67,7 @@ namespace EasyWiFi.ServerControls
             {
                 if (lastValue != intController[index].INT_VALUE)
                 {
-                    SendMessage(notifyMethod, intController[index]);
+                    SendMessage(notifyMethod, new object[] { intController[index], index });
                 }
                 lastValue = intController[index].INT_VALUE;
             }
