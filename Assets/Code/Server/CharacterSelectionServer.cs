@@ -8,7 +8,6 @@ using System;
 
 namespace EasyWiFi.ServerControls
 {
-    [AddComponentMenu("EasyWiFiController/Server/DataControls/Custom Int")]
     public class CharacterSelectionServer : MonoBehaviour, IServerController
     {
 

@@ -7,7 +7,6 @@ using System;
 
 namespace EasyWiFi.ClientControls
 {
-    [AddComponentMenu("EasyWiFiController/Client/DataControls/Int")]
     public class CharacterSelectionClient : MonoBehaviour, IClientController
     {
         public string controlName = "CharacterCreateController";

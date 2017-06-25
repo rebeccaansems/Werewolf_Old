@@ -154,6 +154,7 @@ public class ControllerConnected : MonoBehaviour {
             }
         }
         //start the game scene
+#pragma warning disable CS0618 // Type or member is obsolete
         Application.LoadLevel("ControllerSelectServerScenePart2");
     }
 

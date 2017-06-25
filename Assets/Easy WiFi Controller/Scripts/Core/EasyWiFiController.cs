@@ -623,18 +623,21 @@ namespace EasyWiFi.Core
             }
             splitMessage = message.Split(EasyWiFiConstants.SPLITARRAY_COLON, StringSplitOptions.RemoveEmptyEntries);
             packetNumber = splitMessage[1];
-            splitMessage = splitMessage[2].Split(EasyWiFiConstants.SPLITARRAY_NEWLINE, StringSplitOptions.RemoveEmptyEntries);
-
-            for (int i = 0; i < splitMessage.Length; i++)
+            if (splitMessage.Length > 2)
             {
-                //here we have each line (including the server key)
-                splitMessage2 = splitMessage[i].Split(EasyWiFiConstants.SPLITARRAY_POUND, StringSplitOptions.RemoveEmptyEntries);
-                currentServerKey = splitMessage2[0];
+                splitMessage = splitMessage[2].Split(EasyWiFiConstants.SPLITARRAY_NEWLINE, StringSplitOptions.RemoveEmptyEntries);
 
-                //pass the rest of the line (without server key) into the mapping function
-                if (splitMessage2.Length > 1 && serverState != EasyWiFiConstants.CURRENT_SERVER_STATE.Disconnecting && controllerDataDictionary.ContainsKey(currentServerKey))
+                for (int i = 0; i < splitMessage.Length; i++)
                 {
-                    controllerDataDictionary[currentServerKey].mapNetworkDataToStructure(Convert.ToInt32(packetNumber), splitMessage2[1]);
+                    //here we have each line (including the server key)
+                    splitMessage2 = splitMessage[i].Split(EasyWiFiConstants.SPLITARRAY_POUND, StringSplitOptions.RemoveEmptyEntries);
+                    currentServerKey = splitMessage2[0];
+
+                    //pass the rest of the line (without server key) into the mapping function
+                    if (splitMessage2.Length > 1 && serverState != EasyWiFiConstants.CURRENT_SERVER_STATE.Disconnecting && controllerDataDictionary.ContainsKey(currentServerKey))
+                    {
+                        controllerDataDictionary[currentServerKey].mapNetworkDataToStructure(Convert.ToInt32(packetNumber), splitMessage2[1]);
+                    }
                 }
             }
         }
