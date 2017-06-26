@@ -13,7 +13,7 @@ namespace EasyWiFi.ClientControls
         public Button[] nameButtons;
 
         private IntBackchannelType intData;
-        private int controllerValue, currentPlayerValue;
+        private int controllerValue = -1, currentPlayerValue;
 
         void Awake()
         {
@@ -23,7 +23,7 @@ namespace EasyWiFi.ClientControls
 
         void Update()
         {
-            //mapInputToDataStream();
+            mapInputToDataStream();
         }
 
         public void PressedNameButton(int index)
@@ -44,7 +44,6 @@ namespace EasyWiFi.ClientControls
         {
             nameButtons[currentPlayerValue].GetComponent<Image>().color = Color.white;
             controllerValue = currentPlayerValue;
-            mapInputToDataStream();
         }
 
         public void mapInputToDataStream()

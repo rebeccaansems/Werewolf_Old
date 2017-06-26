@@ -65,7 +65,8 @@ namespace EasyWiFi.ServerControls
             if (lastValue != intController[index].INT_VALUE && intController[index].INT_VALUE!=0)
             {
                 UpdateCharacters(intController[index].INT_VALUE - 1);
-                lastValue = intController[index].INT_VALUE - 1;
+                lastValue = -1;
+                intController[index].INT_VALUE = 0;
             }
         }
 
