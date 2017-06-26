@@ -6,19 +6,16 @@ using System;
 
 namespace EasyWiFi.ClientBackchannels
 {
-    public class SecretMessageClient : MonoBehaviour, IClientBackchannel
+    public class cl_RecieveDeadPlayer : MonoBehaviour, IClientBackchannel
     {
-        public Text message;
-
-        public string controlName = "SecretMessageController";
-        public string notifyMethod = "UpdateText";
-        [Tooltip("Determines when your Notify Method gets called")]
+        public string controlName = "DeadPlayerController";
         public EasyWiFiConstants.CALL_TYPE callType = EasyWiFiConstants.CALL_TYPE.Only_When_Changed;
+        public Button[] characters;
 
         //runtime variables
         StringBackchannelType stringBackchannel = new StringBackchannelType();
         string backchannelKey;
-        string lastValue = "yo";
+        string lastValue = "";
 
         void Awake()
         {
@@ -26,9 +23,15 @@ namespace EasyWiFi.ClientBackchannels
             stringBackchannel = (StringBackchannelType)EasyWiFiController.controllerDataDictionary[backchannelKey];
         }
 
-        public void UpdateText(string text)
+        void DisableDeadCharacters(string deadCharacters)
         {
-            message.text = text;
+            for(int i=0; i<characters.Length; i++)
+            {
+                if(deadCharacters[i] == '1')
+                {
+                    characters[i].interactable = false;
+                }
+            }
         }
 
         void Update()
@@ -41,20 +44,13 @@ namespace EasyWiFi.ClientBackchannels
 
         public void mapDataStructureToMethod()
         {
-            if (callType == EasyWiFiConstants.CALL_TYPE.Every_Frame)
+            if (stringBackchannel.STRING_VALUE != null)
             {
-                SendMessage(notifyMethod, new object[] { stringBackchannel.STRING_VALUE }, SendMessageOptions.DontRequireReceiver);
-            }
-            else
-            {
-                if (stringBackchannel.STRING_VALUE != null)
+                if (!stringBackchannel.STRING_VALUE.Equals(lastValue))
                 {
-                    if (!lastValue.Equals(stringBackchannel.STRING_VALUE))
-                    {
-                        SendMessage(notifyMethod, stringBackchannel.STRING_VALUE);
-                    }
-                    lastValue = stringBackchannel.STRING_VALUE;
+                    DisableDeadCharacters(stringBackchannel.STRING_VALUE);
                 }
+                lastValue = stringBackchannel.STRING_VALUE;
             }
         }
     }

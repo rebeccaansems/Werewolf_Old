@@ -15,7 +15,7 @@ namespace EasyWiFi.ServerControls
         public Image[] playerPanels;
 
         IntBackchannelType[] intController = new IntBackchannelType[EasyWiFiConstants.MAX_CONTROLLERS];
-        int currentNumberControllers = 0, lastValue = 0;
+        int currentNumberControllers = 0, lastValue = -1;
 
         void UpdateCharacters(int index)
         {
@@ -25,7 +25,7 @@ namespace EasyWiFi.ServerControls
 
         void UpdatePanelColors()
         {
-            for(int i=0; i<playerPanels.Length; i++)
+            for (int i = 0; i < playerPanels.Length; i++)
             {
                 if (gl_variables.deadCharacters[i])
                 {
@@ -60,12 +60,12 @@ namespace EasyWiFi.ServerControls
             }
         }
 
-        public void mapDataStructureToAction(int index)
+        public void mapDataStructureToAction(int index) 
         {
-            if (lastValue != intController[index].INT_VALUE)
+            if (lastValue != intController[index].INT_VALUE && intController[index].INT_VALUE!=0)
             {
-                UpdateCharacters(intController[index].INT_VALUE);
-                lastValue = intController[index].INT_VALUE;
+                UpdateCharacters(intController[index].INT_VALUE - 1);
+                lastValue = intController[index].INT_VALUE - 1;
             }
         }
 

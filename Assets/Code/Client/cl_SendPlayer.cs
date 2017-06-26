@@ -23,14 +23,14 @@ namespace EasyWiFi.ClientControls
 
         void Update()
         {
-            mapInputToDataStream();
+            //mapInputToDataStream();
         }
 
         public void PressedNameButton(int index)
         {
-            for (int i=0; i<nameButtons.Length; i++)
+            for (int i = 0; i < nameButtons.Length; i++)
             {
-                if(i != index)
+                if (i != index)
                 {
                     nameButtons[i].GetComponent<Image>().color = Color.white;
                 }
@@ -42,12 +42,14 @@ namespace EasyWiFi.ClientControls
 
         public void PressedSend()
         {
+            nameButtons[currentPlayerValue].GetComponent<Image>().color = Color.white;
             controllerValue = currentPlayerValue;
+            mapInputToDataStream();
         }
 
         public void mapInputToDataStream()
         {
-            intData.INT_VALUE = controllerValue;
+            intData.INT_VALUE = controllerValue + 1;
         }
     }
 }
