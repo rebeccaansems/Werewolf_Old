@@ -8,34 +8,36 @@ using System;
 
 namespace EasyWiFi.ServerControls
 {
-    public class CharacterSelectionServer : MonoBehaviour, IServerController
+    public class se_ReceivePlayer : MonoBehaviour
     {
-
-        public string control = "CharacterCreateController";
+        public string control = "SendPlayerController";
         public EasyWiFiConstants.PLAYER_NUMBER player = EasyWiFiConstants.PLAYER_NUMBER.Player1;
-        public string notifyMethod = "UpdateImage";
-        [Tooltip("Determines when your Notify Method gets called")]
-        public EasyWiFiConstants.CALL_TYPE callType = EasyWiFiConstants.CALL_TYPE.Only_When_Changed;
+        public Image[] playerPanels;
 
         IntBackchannelType[] intController = new IntBackchannelType[EasyWiFiConstants.MAX_CONTROLLERS];
-        int currentNumberControllers = 0;
-        int lastValue = 0;
-        
-        public Sprite[] sprites;
-        public Image[] image;
+        int currentNumberControllers = 0, lastValue = 0;
 
-
-        void UpdateImage(object[] obj)
+        void UpdateCharacters(int index)
         {
-            image[(int)player].sprite = sprites[((IntBackchannelType)obj[0]).INT_VALUE];
+            gl_variables.deadCharacters[index] = true;
+            UpdatePanelColors();
+        }
+
+        void UpdatePanelColors()
+        {
+            for(int i=0; i<playerPanels.Length; i++)
+            {
+                if (gl_variables.deadCharacters[i])
+                {
+                    playerPanels[i].color = Color.red;
+                }
+            }
         }
 
         void OnEnable()
         {
             EasyWiFiController.On_ConnectionsChanged += checkForNewConnections;
 
-            //do one check at the beginning just in case we're being spawned after startup and after the callbacks
-            //have already been called
             if (intController[0] == null && EasyWiFiController.lastConnectedPlayerNumber >= 0)
             {
                 EasyWiFiUtilities.checkForClient(control, (int)player, ref intController, ref currentNumberControllers);
@@ -49,7 +51,6 @@ namespace EasyWiFi.ServerControls
 
         void Update()
         {
-            //iterate over the current number of connected controllers
             for (int i = 0; i < currentNumberControllers; i++)
             {
                 if (intController[i] != null && intController[i].serverKey != null && intController[i].logicalPlayerNumber != EasyWiFiConstants.PLAYERNUMBER_DISCONNECTED)
@@ -61,14 +62,9 @@ namespace EasyWiFi.ServerControls
 
         public void mapDataStructureToAction(int index)
         {
-            if (callType == EasyWiFiConstants.CALL_TYPE.Every_Frame)
-                SendMessage(notifyMethod, intController[index], SendMessageOptions.DontRequireReceiver);
-            else
+            if (lastValue != intController[index].INT_VALUE)
             {
-                if (lastValue != intController[index].INT_VALUE)
-                {
-                    SendMessage(notifyMethod, new object[] { intController[index], index });
-                }
+                UpdateCharacters(intController[index].INT_VALUE);
                 lastValue = intController[index].INT_VALUE;
             }
         }
