@@ -11,16 +11,23 @@ namespace EasyWiFi.ServerControls
     public class se_ReceivePlayer : MonoBehaviour
     {
         public string control = "SendPlayerController";
-        public EasyWiFiConstants.PLAYER_NUMBER player = EasyWiFiConstants.PLAYER_NUMBER.Player1;
+        public EasyWiFiConstants.PLAYER_NUMBER player = EasyWiFiConstants.PLAYER_NUMBER.AnyPlayer;
         public Image[] playerPanels;
+        public Text[] votesText;
 
         IntBackchannelType[] intController = new IntBackchannelType[EasyWiFiConstants.MAX_CONTROLLERS];
-        int currentNumberControllers = 0, lastValue = -1;
+        int currentNumberControllers = 0, lastValue = -1, lastIndex = -1;
+        int[] currentController = new int[16] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
 
-        void UpdateCharacters(int index)
+        void UpdateCharacters(int index, int playerVoting)
         {
-            gl_variables.deadCharacters[index] = true;
-            UpdatePanelColors();
+            if(currentController[playerVoting] != index)
+            {
+                currentController[playerVoting] = index;
+                gl_variables.deadCharacters[index] = true;
+                votesText[index].text = (int.Parse(votesText[index].text) + 1).ToString();
+                UpdatePanelColors();
+            }
         }
 
         void UpdatePanelColors()
@@ -60,11 +67,11 @@ namespace EasyWiFi.ServerControls
             }
         }
 
-        public void mapDataStructureToAction(int index) 
+        public void mapDataStructureToAction(int index)
         {
-            if (lastValue != intController[index].INT_VALUE && intController[index].INT_VALUE!=0)
+            if (lastValue != intController[index].INT_VALUE && intController[index].INT_VALUE != 0)
             {
-                UpdateCharacters(intController[index].INT_VALUE - 1);
+                UpdateCharacters(intController[index].INT_VALUE - 1, index);
                 lastValue = -1;
                 intController[index].INT_VALUE = 0;
             }
