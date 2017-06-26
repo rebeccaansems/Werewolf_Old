@@ -7,7 +7,7 @@ using System;
 
 namespace EasyWiFi.ClientControls
 {
-    public class cl_SendPlayer : MonoBehaviour, IClientController
+    public class cl_SendVotes : MonoBehaviour, IClientController
     {
         public string controlName = "SendPlayerController";
         public Button[] nameButtons;

@@ -8,7 +8,7 @@ using System;
 
 namespace EasyWiFi.ServerControls
 {
-    public class se_ReceivePlayer : MonoBehaviour
+    public class se_ReceiveVotes : MonoBehaviour
     {
         public string control = "SendPlayerController";
         public EasyWiFiConstants.PLAYER_NUMBER player = EasyWiFiConstants.PLAYER_NUMBER.AnyPlayer;
@@ -16,7 +16,7 @@ namespace EasyWiFi.ServerControls
         public Text[] votesText;
 
         IntBackchannelType[] intController = new IntBackchannelType[EasyWiFiConstants.MAX_CONTROLLERS];
-        int currentNumberControllers = 0, lastValue = -1, lastIndex = -1;
+        int currentNumberControllers = 0, lastValue = -1;
         int[] currentController = new int[16] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
 
         void UpdateCharacters(int index, int playerVoting)
