@@ -10,7 +10,6 @@ namespace EasyWiFi.ServerControls
 {
     public class se_ReceivePlayerName : MonoBehaviour
     {
-        public Text[] playerNames;
         public GameObject playerPod, podPanel;
 
         private StringBackchannelType[] stringController = new StringBackchannelType[EasyWiFiConstants.MAX_CONTROLLERS];
@@ -49,8 +48,15 @@ namespace EasyWiFi.ServerControls
         {
             if (stringController != null)
             {
+                if (currentNumberControllers > gl_se_GameObjects.playerPods.Count)
+                {
+                    GameObject newPod = Instantiate(playerPod, podPanel.transform);
+                    gl_se_GameObjects.playerPods.Add(newPod);
+                    gl_se_GameObjects.playerNamesText.Add(newPod.GetComponentsInChildren<Text>()[0]);
+                    gl_se_GameObjects.votesText.Add(newPod.GetComponentsInChildren<Text>()[1]);
+                }
 
-                playerNames[index].text = stringController[index].STRING_VALUE;
+                gl_se_GameObjects.playerNamesText[index].text = stringController[index].STRING_VALUE;
                 GetComponent<se_SendPlayerInfo>().SendNames();
             }
         }

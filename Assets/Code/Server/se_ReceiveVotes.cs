@@ -6,9 +6,6 @@ namespace EasyWiFi.ServerControls
 {
     public class se_ReceiveVotes : MonoBehaviour
     {
-        public Image[] playerPanels;
-        public Text[] votesText;
-
         private IntBackchannelType[] intController = new IntBackchannelType[EasyWiFiConstants.MAX_CONTROLLERS];
         private EasyWiFiConstants.PLAYER_NUMBER player = EasyWiFiConstants.PLAYER_NUMBER.AnyPlayer;
         private string control = "SendVotes";
@@ -21,18 +18,18 @@ namespace EasyWiFi.ServerControls
             {
                 currentController[playerVoting] = index;
                 gl_variables.deadCharacters[index] = true;
-                votesText[index].text = (int.Parse(votesText[index].text) + 1).ToString();
+                gl_se_GameObjects.votesText[index].text = (int.Parse(gl_se_GameObjects.votesText[index].text) + 1).ToString();
                 UpdatePanelColors();
             }
         }
 
         void UpdatePanelColors()
         {
-            for (int i = 0; i < playerPanels.Length; i++)
+            for (int i = 0; i < gl_se_GameObjects.playerPods.Count; i++)
             {
                 if (gl_variables.deadCharacters[i])
                 {
-                    playerPanels[i].color = Color.red;
+                    gl_se_GameObjects.playerPods[i].GetComponent<Image>().color = Color.red;
                 }
             }
         }

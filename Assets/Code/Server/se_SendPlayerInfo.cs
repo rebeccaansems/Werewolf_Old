@@ -64,11 +64,6 @@ namespace EasyWiFi.ServerBackchannels
         {
             EasyWiFiUtilities.checkForClient(dcControlName, (int)player, ref deadCharacterStringBackchannel, ref currentNumberControllers);
             EasyWiFiUtilities.checkForClient(pnControlName, (int)player, ref playerNameStringBackchannel, ref currentNumberControllers);
-
-            if (isConnect)
-            {
-                SendNames();
-            }
         }
 
         public void PressedSend()
@@ -93,11 +88,11 @@ namespace EasyWiFi.ServerBackchannels
         {
             string playerNameString = "";
 
-            for (int i = 0; i < playerNames.Length - 1; i++)
+            for (int i = 0; i < gl_se_GameObjects.playerNamesText.Count - 1; i++)
             {
-                playerNameString += playerNames[i].text + ",";
+                playerNameString += gl_se_GameObjects.playerNamesText[i].text + ",";
             }
-            playerNameString += playerNames[playerNames.Length-1].text + ",";
+            playerNameString += gl_se_GameObjects.playerNamesText[gl_se_GameObjects.playerNamesText.Count - 1].text + ",";
 
             pnSendValue = playerNameString;
         }
