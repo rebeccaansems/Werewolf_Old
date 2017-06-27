@@ -11,6 +11,7 @@ namespace EasyWiFi.ServerControls
     public class se_ReceivePlayerName : MonoBehaviour
     {
         public Text[] playerNames;
+        public GameObject playerPod, podPanel;
 
         private StringBackchannelType[] stringController = new StringBackchannelType[EasyWiFiConstants.MAX_CONTROLLERS];
         private EasyWiFiConstants.PLAYER_NUMBER player = EasyWiFiConstants.PLAYER_NUMBER.AnyPlayer;
@@ -48,6 +49,7 @@ namespace EasyWiFi.ServerControls
         {
             if (stringController != null)
             {
+
                 playerNames[index].text = stringController[index].STRING_VALUE;
                 GetComponent<se_SendPlayerInfo>().SendNames();
             }
