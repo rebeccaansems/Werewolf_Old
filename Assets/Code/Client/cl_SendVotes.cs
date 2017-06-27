@@ -8,38 +8,35 @@ namespace EasyWiFi.ClientControls
 {
     public class cl_SendVotes : MonoBehaviour
     {
-        public Button[] nameButtons;
-
-        private IntBackchannelType intData;
-        private int controllerValue = -1, currentPlayerValue;
+        private StringBackchannelType stringData;
+        private int currentPlayerValue = -1;
         private string controlName = "SendVotes";
 
         void Awake()
         {
-            string key = EasyWiFiController.registerControl(EasyWiFiConstants.CONTROLLERTYPE_INT, controlName);
-            intData = (IntBackchannelType)EasyWiFiController.controllerDataDictionary[key];
+            string key = EasyWiFiController.registerControl(EasyWiFiConstants.CONTROLLERTYPE_STRING, controlName);
+            stringData = (StringBackchannelType)EasyWiFiController.controllerDataDictionary[key];
         }
-
         public void PressedNameButton(int index)
         {
-            for (int i = 0; i < nameButtons.Length; i++)
+            for (int i = 0; i < gl_cl_GameObjects.playerPods.Count; i++)
             {
                 if (i != index)
                 {
-                    nameButtons[i].GetComponent<Image>().color = Color.white;
+                    gl_cl_GameObjects.playerPods[i].GetComponent<Image>().color = Color.white;
                 }
             }
-            nameButtons[index].GetComponent<Image>().color = Color.grey;
+            gl_cl_GameObjects.playerPods[index - 1].GetComponent<Image>().color = Color.grey;
 
-            currentPlayerValue = index;
+            currentPlayerValue = index - 1;
         }
 
         public void PressedSend()
         {
-            nameButtons[currentPlayerValue].GetComponent<Image>().color = Color.white;
-            controllerValue = currentPlayerValue;
+            gl_cl_GameObjects.playerPods[currentPlayerValue].GetComponent<Image>().color = Color.white;
 
-            intData.INT_VALUE = controllerValue + 1;
+            
+            stringData.STRING_VALUE = currentPlayerValue.ToString();
         }
     }
 }

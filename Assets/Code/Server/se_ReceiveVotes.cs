@@ -6,41 +6,26 @@ namespace EasyWiFi.ServerControls
 {
     public class se_ReceiveVotes : MonoBehaviour
     {
-        private IntBackchannelType[] intController = new IntBackchannelType[EasyWiFiConstants.MAX_CONTROLLERS];
+        private StringBackchannelType[] stringController = new StringBackchannelType[EasyWiFiConstants.MAX_CONTROLLERS];
         private EasyWiFiConstants.PLAYER_NUMBER player = EasyWiFiConstants.PLAYER_NUMBER.AnyPlayer;
         private string control = "SendVotes";
-        private int currentNumberControllers = 0, lastValue = -1;
+        private int currentNumberControllers = 0;
+        private int lastIndex = -1;
         private int[] currentController = new int[16] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
 
         void UpdateCharacters(int index, int playerVoting)
         {
-            if(currentController[playerVoting] != index)
-            {
-                currentController[playerVoting] = index;
-                gl_variables.deadCharacters[index] = true;
-                gl_se_GameObjects.votesText[index].text = (int.Parse(gl_se_GameObjects.votesText[index].text) + 1).ToString();
-                UpdatePanelColors();
-            }
-        }
-
-        void UpdatePanelColors()
-        {
-            for (int i = 0; i < gl_se_GameObjects.playerPods.Count; i++)
-            {
-                if (gl_variables.deadCharacters[i])
-                {
-                    gl_se_GameObjects.playerPods[i].GetComponent<Image>().color = Color.red;
-                }
-            }
+            currentController[playerVoting] = index;
+            gl_se_GameObjects.votesText[playerVoting].text = (int.Parse(gl_se_GameObjects.votesText[playerVoting].text) + 1).ToString();
         }
 
         void OnEnable()
         {
             EasyWiFiController.On_ConnectionsChanged += checkForNewConnections;
 
-            if (intController[0] == null && EasyWiFiController.lastConnectedPlayerNumber >= 0)
+            if (stringController[0] == null && EasyWiFiController.lastConnectedPlayerNumber >= 0)
             {
-                EasyWiFiUtilities.checkForClient(control, (int)player, ref intController, ref currentNumberControllers);
+                EasyWiFiUtilities.checkForClient(control, (int)player, ref stringController, ref currentNumberControllers);
             }
         }
 
@@ -53,7 +38,7 @@ namespace EasyWiFi.ServerControls
         {
             for (int i = 0; i < currentNumberControllers; i++)
             {
-                if (intController[i] != null && intController[i].serverKey != null && intController[i].logicalPlayerNumber != EasyWiFiConstants.PLAYERNUMBER_DISCONNECTED)
+                if (stringController[i] != null && stringController[i].serverKey != null && stringController[i].logicalPlayerNumber != EasyWiFiConstants.PLAYERNUMBER_DISCONNECTED)
                 {
                     mapDataStructureToAction(i);
                 }
@@ -62,17 +47,20 @@ namespace EasyWiFi.ServerControls
 
         public void mapDataStructureToAction(int index)
         {
-            if (lastValue != intController[index].INT_VALUE && intController[index].INT_VALUE != 0)
+            if (stringController[index].STRING_VALUE != null)
             {
-                UpdateCharacters(intController[index].INT_VALUE - 1, index);
-                lastValue = -1;
-                intController[index].INT_VALUE = 0;
+                int ignore;
+                if (lastIndex != index && int.TryParse(stringController[index].STRING_VALUE, out ignore))
+                {
+                    UpdateCharacters(int.Parse(stringController[index].STRING_VALUE) - 1, index);
+                    lastIndex = index;
+                }
             }
         }
 
         public void checkForNewConnections(bool isConnect, int playerNumber)
         {
-            EasyWiFiUtilities.checkForClient(control, (int)player, ref intController, ref currentNumberControllers);
+            EasyWiFiUtilities.checkForClient(control, (int)player, ref stringController, ref currentNumberControllers);
         }
     }
 }

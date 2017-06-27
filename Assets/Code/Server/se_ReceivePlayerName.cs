@@ -40,6 +40,7 @@ namespace EasyWiFi.ServerControls
                 if (stringController[i] != null && stringController[i].serverKey != null && stringController[i].logicalPlayerNumber != EasyWiFiConstants.PLAYERNUMBER_DISCONNECTED)
                 {
                     mapDataStructureToAction(i);
+                    GetComponent<se_SendPlayerInfo>().SendNames();
                 }
             }
         }
@@ -57,7 +58,6 @@ namespace EasyWiFi.ServerControls
                 }
 
                 gl_se_GameObjects.playerNamesText[index].text = stringController[index].STRING_VALUE;
-                GetComponent<se_SendPlayerInfo>().SendNames();
             }
         }
 

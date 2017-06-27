@@ -10,33 +10,28 @@ namespace EasyWiFi.ClientBackchannels
 {
     public class cl_RecievePlayerInfo : MonoBehaviour, IClientBackchannel
     {
-        public string dcControlName = "DeadPlayerController", pnControlName = "PlayerNameController";
+        public string pnControlName = "PlayerNameController";
+        public GameObject playerVotePod, playerVotePanel;
         public Canvas votesCanvas;
-        public Button[] characters;
-        public Text[] playerNames;
 
         //runtime variables
-        StringBackchannelType deadCharacterStringBackchannel = new StringBackchannelType();
         StringBackchannelType playerNameStringBackchannel = new StringBackchannelType();
-        string dcBackchannelKey, pnBackchannelKey;
-        string dcLastValue = "", pnLastValue = "";
+        string pnBackchannelKey;
+        string pnLastValue = "";
 
         void Awake()
         {
-            dcBackchannelKey = EasyWiFiController.registerControl(EasyWiFiConstants.BACKCHANNELTYPE_STRING, dcControlName);
-            deadCharacterStringBackchannel = (StringBackchannelType)EasyWiFiController.controllerDataDictionary[dcBackchannelKey];
-
             pnBackchannelKey = EasyWiFiController.registerControl(EasyWiFiConstants.BACKCHANNELTYPE_STRING, pnControlName);
             playerNameStringBackchannel = (StringBackchannelType)EasyWiFiController.controllerDataDictionary[pnBackchannelKey];
         }
 
         void DisableDeadCharacters(string deadCharacters)
         {
-            for(int i=0; i<characters.Length; i++)
+            for (int i = 0; i < deadCharacters.Length; i++)
             {
-                if(deadCharacters[i] == '1')
+                if (deadCharacters[i] == '1')
                 {
-                    characters[i].interactable = false;
+                    gl_cl_GameObjects.playerPods[i].GetComponent<Button>().interactable = false;
                 }
             }
         }
@@ -44,16 +39,26 @@ namespace EasyWiFi.ClientBackchannels
         void NameCharacters(string names)
         {
             List<string> namesList = names.Split(',').ToList<string>();
-
-            for(int i=0; i< playerNames.Length; i++)
+            namesList.RemoveAt(namesList.Count - 1);
+            
+            for (int i = 0; i < namesList.Count; i++)
             {
-                playerNames[i].text = namesList[i];
+                if (i > gl_cl_GameObjects.playerPods.Count - 1)
+                {
+                    GameObject newPod = Instantiate(playerVotePod, playerVotePanel.transform);
+                    newPod.transform.SetAsFirstSibling();
+                    newPod.GetComponent<Button>().onClick.AddListener(delegate { GetComponent<ClientControls.cl_SendVotes>().PressedNameButton(i); });
+                    gl_cl_GameObjects.playerPods.Add(newPod);
+                    gl_cl_GameObjects.playerNames.Add(newPod.GetComponentsInChildren<Text>()[0]);
+                }
+
+                gl_cl_GameObjects.playerNames[i].text = namesList[i];
             }
         }
 
         void Update()
         {
-            if (deadCharacterStringBackchannel.serverKey != null)
+            if (playerNameStringBackchannel.serverKey != null)
             {
                 mapDataStructureToMethod();
             }
@@ -61,15 +66,6 @@ namespace EasyWiFi.ClientBackchannels
 
         public void mapDataStructureToMethod()
         {
-            if (deadCharacterStringBackchannel.STRING_VALUE != null)
-            {
-                if (!deadCharacterStringBackchannel.STRING_VALUE.Equals(dcLastValue))
-                {
-                    DisableDeadCharacters(deadCharacterStringBackchannel.STRING_VALUE);
-                }
-                dcLastValue = deadCharacterStringBackchannel.STRING_VALUE;
-            }
-
             if (votesCanvas.gameObject.activeSelf)
             {
                 if (playerNameStringBackchannel.STRING_VALUE != null)
