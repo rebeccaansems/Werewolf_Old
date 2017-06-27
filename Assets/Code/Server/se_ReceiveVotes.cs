@@ -1,23 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using EasyWiFi.ServerBackchannels;
 using EasyWiFi.Core;
-using System;
 
 namespace EasyWiFi.ServerControls
 {
     public class se_ReceiveVotes : MonoBehaviour
     {
-        public string control = "SendPlayerController";
-        public EasyWiFiConstants.PLAYER_NUMBER player = EasyWiFiConstants.PLAYER_NUMBER.AnyPlayer;
         public Image[] playerPanels;
         public Text[] votesText;
 
-        IntBackchannelType[] intController = new IntBackchannelType[EasyWiFiConstants.MAX_CONTROLLERS];
-        int currentNumberControllers = 0, lastValue = -1;
-        int[] currentController = new int[16] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+        private IntBackchannelType[] intController = new IntBackchannelType[EasyWiFiConstants.MAX_CONTROLLERS];
+        private EasyWiFiConstants.PLAYER_NUMBER player = EasyWiFiConstants.PLAYER_NUMBER.AnyPlayer;
+        private string control = "SendVotes";
+        private int currentNumberControllers = 0, lastValue = -1;
+        private int[] currentController = new int[16] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
 
         void UpdateCharacters(int index, int playerVoting)
         {

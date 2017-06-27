@@ -3,27 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using EasyWiFi.Core;
-using System;
 
 namespace EasyWiFi.ClientControls
 {
-    public class cl_SendVotes : MonoBehaviour, IClientController
+    public class cl_SendVotes : MonoBehaviour
     {
-        public string controlName = "SendPlayerController";
         public Button[] nameButtons;
 
         private IntBackchannelType intData;
         private int controllerValue = -1, currentPlayerValue;
+        private string controlName = "SendVotes";
 
         void Awake()
         {
             string key = EasyWiFiController.registerControl(EasyWiFiConstants.CONTROLLERTYPE_INT, controlName);
             intData = (IntBackchannelType)EasyWiFiController.controllerDataDictionary[key];
-        }
-
-        void Update()
-        {
-            mapInputToDataStream();
         }
 
         public void PressedNameButton(int index)
@@ -44,10 +38,7 @@ namespace EasyWiFi.ClientControls
         {
             nameButtons[currentPlayerValue].GetComponent<Image>().color = Color.white;
             controllerValue = currentPlayerValue;
-        }
 
-        public void mapInputToDataStream()
-        {
             intData.INT_VALUE = controllerValue + 1;
         }
     }

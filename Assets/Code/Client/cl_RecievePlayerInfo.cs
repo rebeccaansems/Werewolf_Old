@@ -11,6 +11,7 @@ namespace EasyWiFi.ClientBackchannels
     public class cl_RecievePlayerInfo : MonoBehaviour, IClientBackchannel
     {
         public string dcControlName = "DeadPlayerController", pnControlName = "PlayerNameController";
+        public Canvas votesCanvas;
         public Button[] characters;
         public Text[] playerNames;
 
@@ -44,7 +45,7 @@ namespace EasyWiFi.ClientBackchannels
         {
             List<string> namesList = names.Split(',').ToList<string>();
 
-            for(int i=0; i< namesList.Count; i++)
+            for(int i=0; i< playerNames.Length; i++)
             {
                 playerNames[i].text = namesList[i];
             }
@@ -65,18 +66,20 @@ namespace EasyWiFi.ClientBackchannels
                 if (!deadCharacterStringBackchannel.STRING_VALUE.Equals(dcLastValue))
                 {
                     DisableDeadCharacters(deadCharacterStringBackchannel.STRING_VALUE);
-                    NameCharacters(deadCharacterStringBackchannel.STRING_VALUE);
                 }
                 dcLastValue = deadCharacterStringBackchannel.STRING_VALUE;
             }
 
-            if (playerNameStringBackchannel.STRING_VALUE != null)
+            if (votesCanvas.gameObject.activeSelf)
             {
-                if (!playerNameStringBackchannel.STRING_VALUE.Equals(pnLastValue))
+                if (playerNameStringBackchannel.STRING_VALUE != null)
                 {
-                    NameCharacters(playerNameStringBackchannel.STRING_VALUE);
+                    if (!playerNameStringBackchannel.STRING_VALUE.Equals(pnLastValue))
+                    {
+                        NameCharacters(playerNameStringBackchannel.STRING_VALUE);
+                    }
+                    pnLastValue = playerNameStringBackchannel.STRING_VALUE;
                 }
-                pnLastValue = playerNameStringBackchannel.STRING_VALUE;
             }
         }
     }
