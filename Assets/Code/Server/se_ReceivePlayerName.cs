@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using EasyWiFi.ServerBackchannels;
 using EasyWiFi.Core;
 using System;
+using System.Linq;
 
 namespace EasyWiFi.ServerControls
 {
@@ -46,7 +47,8 @@ namespace EasyWiFi.ServerControls
 
         public void mapDataStructureToAction(int index)
         {
-            if (stringController[index].STRING_VALUE != null && !stringController[index].STRING_VALUE.Equals(""))
+            if (stringController[index].STRING_VALUE != null && !stringController[index].STRING_VALUE.Equals("") && 
+                !stringController[index].STRING_VALUE.Any(char.IsDigit))
             {
                 if (currentNumberControllers > gl_se_GameObjects.playerPods.Count)
                 {
