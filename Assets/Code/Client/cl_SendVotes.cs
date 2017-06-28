@@ -17,6 +17,7 @@ namespace EasyWiFi.ClientControls
             string key = EasyWiFiController.registerControl(EasyWiFiConstants.CONTROLLERTYPE_STRING, controlName);
             stringData = (StringBackchannelType)EasyWiFiController.controllerDataDictionary[key];
         }
+
         public void PressedNameButton(int index)
         {
             for (int i = 0; i < gl_cl_GameObjects.playerPods.Count; i++)
@@ -33,8 +34,8 @@ namespace EasyWiFi.ClientControls
 
         public void PressedSend()
         {
+            Debug.Log(currentPlayerValue.ToString());
             gl_cl_GameObjects.playerPods[currentPlayerValue].GetComponent<Image>().color = Color.white;
-
             
             stringData.STRING_VALUE = currentPlayerValue.ToString();
         }

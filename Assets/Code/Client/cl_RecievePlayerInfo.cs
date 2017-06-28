@@ -47,7 +47,7 @@ namespace EasyWiFi.ClientBackchannels
                 {
                     GameObject newPod = Instantiate(playerVotePod, playerVotePanel.transform);
                     newPod.transform.SetAsFirstSibling();
-                    newPod.GetComponent<Button>().onClick.AddListener(delegate { GetComponent<ClientControls.cl_SendVotes>().PressedNameButton(i); });
+                    newPod.GetComponent<Button>().onClick.AddListener(delegate { this.gameObject.transform.parent.GetComponent<ClientControls.cl_SendVotes>().PressedNameButton(i); });
                     gl_cl_GameObjects.playerPods.Add(newPod);
                     gl_cl_GameObjects.playerNames.Add(newPod.GetComponentsInChildren<Text>()[0]);
                 }
