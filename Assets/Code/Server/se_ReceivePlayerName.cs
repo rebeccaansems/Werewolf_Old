@@ -8,7 +8,7 @@ using System;
 
 namespace EasyWiFi.ServerControls
 {
-    public class se_ReceivePlayerName : MonoBehaviour
+    public class se_ReceivePlayerName : MonoBehaviour, IServerController
     {
         public GameObject playerPod, podPanel;
 
@@ -40,14 +40,13 @@ namespace EasyWiFi.ServerControls
                 if (stringController[i] != null && stringController[i].serverKey != null && stringController[i].logicalPlayerNumber != EasyWiFiConstants.PLAYERNUMBER_DISCONNECTED)
                 {
                     mapDataStructureToAction(i);
-                    GetComponent<se_SendPlayerInfo>().SendNames();
                 }
             }
         }
 
         public void mapDataStructureToAction(int index)
         {
-            if (stringController != null)
+            if (stringController[index].STRING_VALUE != null && !stringController[index].STRING_VALUE.Equals(""))
             {
                 if (currentNumberControllers > gl_se_GameObjects.playerPods.Count)
                 {
@@ -58,6 +57,7 @@ namespace EasyWiFi.ServerControls
                 }
 
                 gl_se_GameObjects.playerNamesText[index].text = stringController[index].STRING_VALUE;
+                GetComponent<se_SendPlayerInfo>().SendNames();
             }
         }
 

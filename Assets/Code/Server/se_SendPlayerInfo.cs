@@ -9,7 +9,6 @@ namespace EasyWiFi.ServerBackchannels
     public class se_SendPlayerInfo : MonoBehaviour, IServerBackchannel
     {
         public string pnControlName = "PlayerNameController";
-        public Text[] playerNames;
         public EasyWiFiConstants.PLAYER_NUMBER player = EasyWiFiConstants.PLAYER_NUMBER.AnyPlayer;
 
         StringBackchannelType[] playerNameStringBackchannel = new StringBackchannelType[EasyWiFiConstants.MAX_CONTROLLERS];

@@ -7,23 +7,45 @@ using System;
 
 namespace EasyWiFi.ClientControls
 {
-    public class cl_SendPlayerName : MonoBehaviour
+    public class cl_SendPlayerName : MonoBehaviour, IClientController
     {
         public InputField nameInput;
         public Canvas voteCanvas, characterCreateCanvas;
 
         private string controlName = "SendPlayerName";
         private StringBackchannelType stringData;
+        private string stringKey;
 
+        //variable other script will modify via setValue to be sent across the network
+        string value;
+
+        // Use this for initialization
         void Awake()
         {
-            string key = EasyWiFiController.registerControl(EasyWiFiConstants.CONTROLLERTYPE_STRING, controlName);
-            stringData = (StringBackchannelType)EasyWiFiController.controllerDataDictionary[key];
+            stringKey = EasyWiFiController.registerControl(EasyWiFiConstants.CONTROLLERTYPE_STRING, controlName);
+            stringData = (StringBackchannelType)EasyWiFiController.controllerDataDictionary[stringKey];
+        }
+
+        //here we grab the input and map it to the data list
+        void Update()
+        {
+            mapInputToDataStream();
+        }
+
+        public void setValue(string newValue)
+        {
+            value = newValue;
+        }
+
+        public void mapInputToDataStream()
+        {
+            //for properties DO NOT reset to default values becasue there isn't a default
+            stringData.STRING_VALUE = value;
         }
 
         public void submitName()
         {
-            stringData.STRING_VALUE = nameInput.text;
+            setValue(nameInput.text);
 
             voteCanvas.gameObject.SetActive(true);
 
