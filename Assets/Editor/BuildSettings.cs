@@ -46,7 +46,7 @@ public class BuildSettings : EditorWindow
         string[] levels = new string[] { "Assets/Code/Client/Controller.unity" };
 
         // Build player.
-        BuildPipeline.BuildPlayer(levels, path + "/Controller.exe", BuildTarget.StandaloneWindows, BuildOptions.None);
+        BuildPipeline.BuildPlayer(levels, path + "/Controller.exe", BuildTarget.StandaloneWindows, BuildOptions.Development);
 
     }
 
@@ -55,7 +55,7 @@ public class BuildSettings : EditorWindow
         string[] levels = new string[] { "Assets/Code/Server/Server.unity" };
 
         // Build player.
-        BuildPipeline.BuildPlayer(levels, path + "/Server.exe", BuildTarget.StandaloneWindows, BuildOptions.None);
+        BuildPipeline.BuildPlayer(levels, path + "/Server.exe", BuildTarget.StandaloneWindows, BuildOptions.Development);
 
     }
 
