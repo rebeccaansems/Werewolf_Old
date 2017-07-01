@@ -12,7 +12,6 @@ namespace EasyWiFi.ClientBackchannels
     {
         public string pnControlName = "PlayerNameController";
         public GameObject playerVotePod, playerVotePanel;
-        public Canvas votesCanvas;
 
         //runtime variables
         StringBackchannelType playerNameStringBackchannel = new StringBackchannelType();
@@ -40,7 +39,7 @@ namespace EasyWiFi.ClientBackchannels
         {
             List<string> namesList = names.Split(',').ToList<string>();
             namesList.RemoveAt(namesList.Count - 1);
-            
+
             for (int i = 0; i < namesList.Count; i++)
             {
                 if (i > gl_cl_GameObjects.playerPods.Count - 1)
@@ -66,16 +65,13 @@ namespace EasyWiFi.ClientBackchannels
 
         public void mapDataStructureToMethod()
         {
-            if (votesCanvas.gameObject.activeSelf)
+            if (playerNameStringBackchannel.STRING_VALUE != null)
             {
-                if (playerNameStringBackchannel.STRING_VALUE != null)
+                if (!playerNameStringBackchannel.STRING_VALUE.Equals(pnLastValue))
                 {
-                    if (!playerNameStringBackchannel.STRING_VALUE.Equals(pnLastValue))
-                    {
-                        NameCharacters(playerNameStringBackchannel.STRING_VALUE);
-                    }
-                    pnLastValue = playerNameStringBackchannel.STRING_VALUE;
+                    NameCharacters(playerNameStringBackchannel.STRING_VALUE);
                 }
+                pnLastValue = playerNameStringBackchannel.STRING_VALUE;
             }
         }
     }

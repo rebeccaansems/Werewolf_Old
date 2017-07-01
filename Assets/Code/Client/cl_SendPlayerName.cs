@@ -47,9 +47,7 @@ namespace EasyWiFi.ClientControls
         {
             setValue(nameInput.text);
 
-            voteCanvas.gameObject.SetActive(true);
-
-            characterCreateCanvas.gameObject.SetActive(false);
+            UnityEngine.SceneManagement.SceneManager.LoadScene("ControllerVote", UnityEngine.SceneManagement.LoadSceneMode.Single);
         }
     }
 }
