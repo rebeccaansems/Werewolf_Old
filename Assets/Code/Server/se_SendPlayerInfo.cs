@@ -11,12 +11,12 @@ namespace EasyWiFi.ServerBackchannels
         public string pnControlName = "PlayerNameController";
         public EasyWiFiConstants.PLAYER_NUMBER player = EasyWiFiConstants.PLAYER_NUMBER.AnyPlayer;
 
-        StringBackchannelType[] playerNameStringBackchannel = new StringBackchannelType[EasyWiFiConstants.MAX_CONTROLLERS];
-        int currentNumberControllers = 0;
+        private StringBackchannelType[] playerNameStringBackchannel = new StringBackchannelType[EasyWiFiConstants.MAX_CONTROLLERS];
+        private int currentNumberControllers = 0;
 
-        string dcSendValue, pnSendValue;
+        private string pnSendValue;
 
-        void OnEnable()
+        public void Enable()
         {
             EasyWiFiController.On_ConnectionsChanged += checkForNewConnections;
 
@@ -24,6 +24,7 @@ namespace EasyWiFi.ServerBackchannels
             {
                 EasyWiFiUtilities.checkForClient(pnControlName, (int)player, ref playerNameStringBackchannel, ref currentNumberControllers);
             }
+
         }
 
         void OnDestroy()
@@ -35,25 +36,24 @@ namespace EasyWiFi.ServerBackchannels
         {
             for (int i = 0; i < currentNumberControllers; i++)
             {
+                Debug.Log("1");
                 if (playerNameStringBackchannel[i] != null && playerNameStringBackchannel[i].serverKey != null && playerNameStringBackchannel[i].logicalPlayerNumber != EasyWiFiConstants.PLAYERNUMBER_DISCONNECTED)
                 {
                     mapPropertyToDataStream(i);
                 }
+
             }
         }
 
         public void mapPropertyToDataStream(int index)
         {
+                Debug.Log("2");
             playerNameStringBackchannel[index].STRING_VALUE = pnSendValue;
         }
 
         public void checkForNewConnections(bool isConnect, int playerNumber)
         {
             EasyWiFiUtilities.checkForClient(pnControlName, (int)player, ref playerNameStringBackchannel, ref currentNumberControllers);
-        }
-
-        public void PressedSend()
-        {
         }
 
         public void SendNames()

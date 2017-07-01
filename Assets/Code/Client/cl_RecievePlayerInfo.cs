@@ -67,6 +67,7 @@ namespace EasyWiFi.ClientBackchannels
         {
             if (playerNameStringBackchannel.STRING_VALUE != null)
             {
+                Debug.Log(playerNameStringBackchannel.STRING_VALUE);
                 if (!playerNameStringBackchannel.STRING_VALUE.Equals(pnLastValue))
                 {
                     NameCharacters(playerNameStringBackchannel.STRING_VALUE);
