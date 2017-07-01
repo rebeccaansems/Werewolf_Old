@@ -37,25 +37,28 @@ namespace EasyWiFi.ClientBackchannels
 
         void NameCharacters(string names)
         {
-            List<string> namesList = names.Split(',').ToList<string>();
-            namesList.RemoveAt(namesList.Count - 1);
-
-            for (int i = 0; i < namesList.Count; i++)
+            if(playerVotePod != null)
             {
-                if (i > gl_cl_GameObjects.playerPods.Count - 1)
-                {
-                    GameObject newPod = Instantiate(playerVotePod, playerVotePanel.transform);
-                    newPod.transform.SetAsFirstSibling();
-                    newPod.GetComponent<Button>().onClick.AddListener(delegate
-                    {
-                        this.gameObject.transform.GetComponent<ClientControls.cl_SendVotes>().PressedNameButton(i);
-                    }
-                    );
-                    gl_cl_GameObjects.playerPods.Add(newPod);
-                    gl_cl_GameObjects.playerNames.Add(newPod.GetComponentsInChildren<Text>()[0]);
-                }
+                List<string> namesList = names.Split(',').ToList<string>();
+                namesList.RemoveAt(namesList.Count - 1);
 
-                gl_cl_GameObjects.playerNames[i].text = namesList[i];
+                for (int i = 0; i < namesList.Count; i++)
+                {
+                    if (i > gl_cl_GameObjects.playerPods.Count - 1)
+                    {
+                        GameObject newPod = Instantiate(playerVotePod, playerVotePanel.transform);
+                        newPod.transform.SetAsFirstSibling();
+                        newPod.GetComponent<Button>().onClick.AddListener(delegate
+                        {
+                            this.gameObject.transform.GetComponent<ClientControls.cl_SendVotes>().PressedNameButton(i);
+                        }
+                        );
+                        gl_cl_GameObjects.playerPods.Add(newPod);
+                        gl_cl_GameObjects.playerNames.Add(newPod.GetComponentsInChildren<Text>()[0]);
+                    }
+
+                    gl_cl_GameObjects.playerNames[i].text = namesList[i];
+                }
             }
         }
 

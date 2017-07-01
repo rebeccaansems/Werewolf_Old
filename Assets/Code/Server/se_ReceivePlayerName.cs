@@ -54,8 +54,11 @@ namespace EasyWiFi.ServerControls
                     gl_se_GameObjects.playerNamesText.Add(newPod.GetComponentsInChildren<Text>()[0]);
                     gl_se_GameObjects.votesText.Add(newPod.GetComponentsInChildren<Text>()[1]);
                 }
+                else if (currentNumberControllers == gl_se_GameObjects.playerPods.Count)
+                {
+                    gl_se_GameObjects.playerNamesText[index].text = stringController[index].STRING_VALUE;
+                }
 
-                gl_se_GameObjects.playerNamesText[index].text = stringController[index].STRING_VALUE;
                 GetComponent<se_ReceiveVotes>().enabled = true;
                 GetComponent<se_SendPlayerInfo>().SendNames();
             }
