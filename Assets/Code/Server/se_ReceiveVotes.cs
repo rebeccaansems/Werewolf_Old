@@ -4,7 +4,7 @@ using EasyWiFi.Core;
 
 namespace EasyWiFi.ServerControls
 {
-    public class se_ReceiveVotes : MonoBehaviour
+    public class se_ReceiveVotes : MonoBehaviour, IServerController
     {
         private StringBackchannelType[] stringController = new StringBackchannelType[EasyWiFiConstants.MAX_CONTROLLERS];
         private EasyWiFiConstants.PLAYER_NUMBER player = EasyWiFiConstants.PLAYER_NUMBER.AnyPlayer;
@@ -12,12 +12,6 @@ namespace EasyWiFi.ServerControls
         private int currentNumberControllers = 0;
         private int lastIndex = -1;
         private int[] currentController = new int[16] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
-
-        void UpdateCharacters(int index, int playerVoting)
-        {
-            currentController[playerVoting] = index;
-            gl_se_GameObjects.votesText[playerVoting].text = (int.Parse(gl_se_GameObjects.votesText[playerVoting].text) + 1).ToString();
-        }
 
         void OnEnable()
         {
@@ -56,6 +50,12 @@ namespace EasyWiFi.ServerControls
                     lastIndex = index;
                 }
             }
+        }
+
+        void UpdateCharacters(int index, int playerVoting)
+        {
+            currentController[playerVoting] = index;
+            gl_se_GameObjects.votesText[playerVoting].text = (int.Parse(gl_se_GameObjects.votesText[playerVoting].text) + 1).ToString();
         }
 
         public void checkForNewConnections(bool isConnect, int playerNumber)

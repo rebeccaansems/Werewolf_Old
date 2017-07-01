@@ -9,14 +9,14 @@ namespace EasyWiFi.ServerBackchannels
     public class se_SendPlayerInfo : MonoBehaviour, IServerBackchannel
     {
         public string pnControlName = "PlayerNameController";
-        public EasyWiFiConstants.PLAYER_NUMBER player = EasyWiFiConstants.PLAYER_NUMBER.AnyPlayer;
+        private EasyWiFiConstants.PLAYER_NUMBER player = EasyWiFiConstants.PLAYER_NUMBER.AnyPlayer;
 
-        StringBackchannelType[] playerNameStringBackchannel = new StringBackchannelType[EasyWiFiConstants.MAX_CONTROLLERS];
-        int currentNumberControllers = 0;
+        private StringBackchannelType[] playerNameStringBackchannel = new StringBackchannelType[EasyWiFiConstants.MAX_CONTROLLERS];
+        private int currentNumberControllers = 0;
 
-        string dcSendValue, pnSendValue;
+        private string pnSendValue;
 
-        void OnEnable()
+        public void Awake()
         {
             EasyWiFiController.On_ConnectionsChanged += checkForNewConnections;
 
@@ -24,6 +24,7 @@ namespace EasyWiFi.ServerBackchannels
             {
                 EasyWiFiUtilities.checkForClient(pnControlName, (int)player, ref playerNameStringBackchannel, ref currentNumberControllers);
             }
+
         }
 
         void OnDestroy()
@@ -39,6 +40,7 @@ namespace EasyWiFi.ServerBackchannels
                 {
                     mapPropertyToDataStream(i);
                 }
+
             }
         }
 
@@ -50,10 +52,6 @@ namespace EasyWiFi.ServerBackchannels
         public void checkForNewConnections(bool isConnect, int playerNumber)
         {
             EasyWiFiUtilities.checkForClient(pnControlName, (int)player, ref playerNameStringBackchannel, ref currentNumberControllers);
-        }
-
-        public void PressedSend()
-        {
         }
 
         public void SendNames()

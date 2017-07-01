@@ -1,10 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using EasyWiFi.ServerBackchannels;
 using EasyWiFi.Core;
-using System;
 using System.Linq;
 
 namespace EasyWiFi.ServerControls
@@ -59,6 +56,7 @@ namespace EasyWiFi.ServerControls
                 }
 
                 gl_se_GameObjects.playerNamesText[index].text = stringController[index].STRING_VALUE;
+                GetComponent<se_ReceiveVotes>().enabled = true;
                 GetComponent<se_SendPlayerInfo>().SendNames();
             }
         }

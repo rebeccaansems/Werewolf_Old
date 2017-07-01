@@ -34,7 +34,6 @@ namespace EasyWiFi.ClientControls
 
         public void PressedSend()
         {
-            Debug.Log(currentPlayerValue.ToString());
             gl_cl_GameObjects.playerPods[currentPlayerValue].GetComponent<Image>().color = Color.white;
             
             stringData.STRING_VALUE = currentPlayerValue.ToString();
