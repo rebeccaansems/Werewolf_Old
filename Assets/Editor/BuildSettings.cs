@@ -54,26 +54,14 @@ public class BuildSettings : EditorWindow
                 levels.Add(f.FullName.Replace("C:/Users/User/Documents/GitHub/Werewolf/", ""));
             }
         }
-        //int sceneCount = UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings;
-        //for (int i = 0; i < sceneCount; i++)
-        //{
-        //    string scene = (UnityEngine.SceneManagement.SceneUtility.GetScenePathByBuildIndex(i));
-        //    if (scene.Contains(type))
-        //    {
-        //        levels.Add(scene);
-        //    }
-        //}
 
-        // Build player.
-        BuildPipeline.BuildPlayer(levels.ToArray(), buildPath + "/" + type + ".exe", BuildTarget.StandaloneWindows, BuildOptions.Development);
-        PostBuild();
+        BuildOptions buildOptions = BuildOptions.Development | BuildOptions.AutoRunPlayer;
+        BuildPipeline.BuildPlayer(levels.ToArray(), buildPath + "/" + type + ".exe", BuildTarget.StandaloneWindows, buildOptions);
+        //PostBuild();
     }
 
     public static void PostBuild()
     {
         Process.Start(buildPath);
     }
-
-    [MenuItem("Custom/Reset Playerprefs")]
-    public static void DeletePlayerPrefs() { PlayerPrefs.DeleteAll(); }
 }
