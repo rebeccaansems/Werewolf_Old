@@ -16,7 +16,7 @@ namespace EasyWiFi.ServerBackchannels
 
         private string pnSendValue;
 
-        public void Enable()
+        public void Awake()
         {
             EasyWiFiController.On_ConnectionsChanged += checkForNewConnections;
 
@@ -36,7 +36,6 @@ namespace EasyWiFi.ServerBackchannels
         {
             for (int i = 0; i < currentNumberControllers; i++)
             {
-                Debug.Log("1");
                 if (playerNameStringBackchannel[i] != null && playerNameStringBackchannel[i].serverKey != null && playerNameStringBackchannel[i].logicalPlayerNumber != EasyWiFiConstants.PLAYERNUMBER_DISCONNECTED)
                 {
                     mapPropertyToDataStream(i);
@@ -47,7 +46,6 @@ namespace EasyWiFi.ServerBackchannels
 
         public void mapPropertyToDataStream(int index)
         {
-                Debug.Log("2");
             playerNameStringBackchannel[index].STRING_VALUE = pnSendValue;
         }
 
