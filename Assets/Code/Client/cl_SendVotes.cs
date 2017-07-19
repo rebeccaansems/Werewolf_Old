@@ -27,15 +27,15 @@ namespace EasyWiFi.ClientControls
                     gl_cl_GameObjects.playerPods[i].GetComponent<Image>().color = Color.white;
                 }
             }
-            gl_cl_GameObjects.playerPods[index - 1].GetComponent<Image>().color = Color.grey;
+            gl_cl_GameObjects.playerPods[gl_cl_GameObjects.playerPods.Count - index].GetComponent<Image>().color = Color.grey;
 
-            currentPlayerValue = index - 1;
+            currentPlayerValue = gl_cl_GameObjects.playerPods.Count - index;
         }
 
         public void PressedSend()
         {
             gl_cl_GameObjects.playerPods[currentPlayerValue].GetComponent<Image>().color = Color.white;
-            
+
             stringData.STRING_VALUE = currentPlayerValue.ToString();
         }
     }
