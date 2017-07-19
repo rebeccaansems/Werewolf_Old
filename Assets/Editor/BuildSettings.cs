@@ -57,7 +57,7 @@ public class BuildSettings : EditorWindow
 
         BuildOptions buildOptions = BuildOptions.Development | BuildOptions.AutoRunPlayer;
         BuildPipeline.BuildPlayer(levels.ToArray(), buildPath + "/" + type + ".exe", BuildTarget.StandaloneWindows, buildOptions);
-        //PostBuild();
+        PostBuild();
     }
 
     public static void PostBuild()
