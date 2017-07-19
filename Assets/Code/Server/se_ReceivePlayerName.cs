@@ -53,6 +53,7 @@ namespace EasyWiFi.ServerControls
                     gl_se_GameObjects.playerPods.Add(newPod);
                     gl_se_GameObjects.playerNamesText.Add(newPod.GetComponentsInChildren<Text>()[0]);
                     gl_se_GameObjects.votesText.Add(newPod.GetComponentsInChildren<Text>()[1]);
+                    gl_se_GameObjects.numberVotes.Add(0);
                 }
                 else if (currentNumberControllers == gl_se_GameObjects.playerPods.Count)
                 {

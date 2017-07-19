@@ -47,7 +47,7 @@ namespace EasyWiFi.ClientControls
         {
             setValue(nameInput.text);
 
-            UnityEngine.SceneManagement.SceneManager.LoadScene("ControllerVote", UnityEngine.SceneManagement.LoadSceneMode.Single);
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Controller02Vote", UnityEngine.SceneManagement.LoadSceneMode.Single);
         }
     }
 }

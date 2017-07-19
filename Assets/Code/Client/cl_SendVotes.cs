@@ -16,6 +16,8 @@ namespace EasyWiFi.ClientControls
         {
             string key = EasyWiFiController.registerControl(EasyWiFiConstants.CONTROLLERTYPE_STRING, controlName);
             stringData = (StringBackchannelType)EasyWiFiController.controllerDataDictionary[key];
+
+            stringData.STRING_VALUE = null;
         }
 
         public void PressedNameButton(int index)
@@ -37,6 +39,8 @@ namespace EasyWiFi.ClientControls
             gl_cl_GameObjects.playerPods[currentPlayerValue].GetComponent<Image>().color = Color.white;
 
             stringData.STRING_VALUE = currentPlayerValue.ToString();
+
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Controller03WaitingVotes", UnityEngine.SceneManagement.LoadSceneMode.Single);
         }
     }
 }

@@ -24,17 +24,6 @@ namespace EasyWiFi.ClientBackchannels
             playerNameStringBackchannel = (StringBackchannelType)EasyWiFiController.controllerDataDictionary[pnBackchannelKey];
         }
 
-        void DisableDeadCharacters(string deadCharacters)
-        {
-            for (int i = 0; i < deadCharacters.Length; i++)
-            {
-                if (deadCharacters[i] == '1')
-                {
-                    gl_cl_GameObjects.playerPods[i].GetComponent<Button>().interactable = false;
-                }
-            }
-        }
-
         void NameCharacters(string names)
         {
             if(playerVotePod != null)
