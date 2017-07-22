@@ -7,15 +7,17 @@ public class c_JoinGame : MonoBehaviour
 {
     public const string VERSION = "0.1";
 
+    public Text errorText;
     public InputField roomCodeInput;
 
-    private bool playerJoinedRoom = true;
+    private string joinRoomCode;
+    private bool roomExists = false;
 
     void Start()
     {
-        PhotonNetwork.autoJoinLobby = false;
+        PhotonNetwork.autoJoinLobby = true;
 
-        if (!(PhotonNetwork.connected))
+        if (!PhotonNetwork.connected)
         {
             PhotonNetwork.ConnectUsingSettings(VERSION);
         }
@@ -23,15 +25,25 @@ public class c_JoinGame : MonoBehaviour
 
     public void JoinGame()
     {
-        PhotonNetwork.JoinRoom(roomCodeInput.text);
-        Debug.Log("[PHOTON] Trying to join room: " + roomCodeInput.text);
-    }
-    private void Update()
-    {
-        if (PhotonNetwork.connected && PhotonNetwork.room != null && playerJoinedRoom)
+        joinRoomCode = roomCodeInput.text.ToUpper();
+
+        RoomInfo[] rooms = PhotonNetwork.GetRoomList();
+
+        for (int i = 0; i < rooms.Length; i++)
         {
-            Debug.Log("[PHOTON] Room Joined: " + roomCodeInput.text);
-            playerJoinedRoom = false;
+            if (rooms[i].Name.Equals(joinRoomCode))
+            {
+                Debug.Log("[PHOTON] Joined room: " + joinRoomCode);
+                PhotonNetwork.JoinRoom(joinRoomCode);
+                roomExists = true;
+                break;
+            }
+        }
+
+        if (!roomExists)
+        {
+            Debug.Log("[PHOTON] Failed to join: " + joinRoomCode);
+            errorText.text = "Room code " + joinRoomCode + " does not exist.";
         }
     }
 }
