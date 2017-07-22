@@ -7,8 +7,11 @@ public class s_CreateGame : MonoBehaviour
 {
     public const string VERSION = "0.1";
 
-    public Text roomCodeText;
+    public Text roomCodeText, numberPlayersText;
+
     public string roomCode { get; private set; }
+
+    private bool playerJoinedRoom = true;
 
     void Start()
     {
@@ -16,20 +19,16 @@ public class s_CreateGame : MonoBehaviour
         roomCodeText.text = roomCode;
 
         PhotonNetwork.autoJoinLobby = false;
-        PhotonNetwork.automaticallySyncScene = true;
 
         if (!(PhotonNetwork.connected))
         {
             PhotonNetwork.ConnectUsingSettings(VERSION);
         }
-
-        //PhotonNetwork.autoJoinLobby = false;
-        //PhotonNetwork.CreateRoom(roomCode, new RoomOptions() { MaxPlayers = 12, PlayerTtl = 600000 }, null);
     }
 
     private string getRandomWord()
     {
-        string possibleLetters = "QWERTYUIOPASDFGHJKLZXCVBNM0123456789";
+        string possibleLetters = "QWERTYUIOPASDFGHJKLZXCVBNM";
         string word = "";
         word += possibleLetters[Random.Range(0, possibleLetters.Length)];
         word += possibleLetters[Random.Range(0, possibleLetters.Length)];
@@ -41,14 +40,20 @@ public class s_CreateGame : MonoBehaviour
         return word;
     }
 
-    bool test = true;
     private void Update()
     {
-        if (PhotonNetwork.connectionStateDetailed.ToString().Equals("ConnectedToMaster") && test)
+        if (PhotonNetwork.connectionStateDetailed.ToString().Equals("ConnectedToMaster") && playerJoinedRoom)
         {
             Debug.Log("[PHOTON] Room Created: " + roomCode);
-            test = false;
             PhotonNetwork.JoinOrCreateRoom(roomCode, new RoomOptions() { MaxPlayers = 12, PlayerTtl = 600000 }, TypedLobby.Default);
+
+            playerJoinedRoom = false;
         }
+
+        if (PhotonNetwork.inRoom)
+        {
+            numberPlayersText.text = PhotonNetwork.room.PlayerCount.ToString();
+        }
+
     }
 }
